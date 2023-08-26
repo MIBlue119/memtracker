@@ -3,7 +3,7 @@ import functools
 from datetime import datetime
 import threading
 import time
-from memory_metrics import MemoryUsage
+from memtracker.memory_metrics import MemoryUsage
 
 
 class MemorySampler:
