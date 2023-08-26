@@ -14,7 +14,8 @@ def main():
     resnet50 = load_resnet50()
     if torch.cuda.is_available():
         random_input_gpu = torch.rand(1, 100,1024, 1024).cuda()
-    random_input_cpu = torch.rand(1, 200,1024, 1024)
+    # This would declare a size of tensor with 20*1024*1024*4 bytes = 80MB
+    random_input_cpu = torch.rand(1, 20,1024, 1024)
     time.sleep(1)
 
 
