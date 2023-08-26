@@ -87,9 +87,14 @@ class MemoryUsage:
         except (subprocess.CalledProcessError, FileNotFoundError):
             gpu_usage_by_pid_df = pd.DataFrame()
 
+        try:
+            gpu_total_mem = gpu_usage_by_pid_df["gpu_mem"].sum()
+        except KeyError:
+            gpu_total_mem = 0
+
         agg_dict = {
             "cpu_mem": cpu_usage_by_pid_df["cpu_mem"].sum(),
-            "gpu_total_mem": gpu_usage_by_pid_df["gpu_mem"].sum(),
+            "gpu_total_mem": gpu_total_mem,
         }
         for gpu_id in map(int, NvidiaSmi._UUID_NUM_MAP.values() if NvidiaSmi._UUID_NUM_MAP else []):
             mem_val = gpu_usage_by_pid_df.query(f"gpu_id == {gpu_id}")["gpu_mem"].sum()
