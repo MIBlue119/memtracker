@@ -34,7 +34,7 @@ class MemorySampler:
         self.thread.join()
 
 
-def track_peak_memory(export_to_json=False):
+def track_peak_memory(export_to_json=False, json_file_name_prefix=""):
     """Decorator to track and print peak CPU and GPU memory usage of a function."""
 
     def decorator(func):
@@ -59,7 +59,10 @@ def track_peak_memory(export_to_json=False):
                 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
 
                 # Export metrics to JSON file with timestamp
-                json_file_name = f"{func.__name__}_memory_metrics_{timestamp_str}.json"
+                if json_file_name_prefix !='':
+                    json_file_name = f"{json_file_name_prefix}_{func.__name__}_memory_metrics_{timestamp_str}.json"
+                else:
+                    json_file_name = f"{func.__name__}_memory_metrics_{timestamp_str}.json" 
                 with open(json_file_name, "w") as json_file:
                     json.dump(metrics, json_file, indent=4)
 
