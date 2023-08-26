@@ -3,7 +3,7 @@ import functools
 from datetime import datetime
 import threading
 import time
-from memory_metrics import get_current_cpu_and_gpu_mem_usage_df
+from memory_metrics import MemoryUsage
 
 
 class MemorySampler:
@@ -15,7 +15,7 @@ class MemorySampler:
 
     def sample(self):
         while not self._stop_event.is_set():
-            agg_df, _, _ = get_current_cpu_and_gpu_mem_usage_df()
+            agg_df, _, _ = MemoryUsage.get_current_cpu_and_gpu_mem_usage_df()
             current_cpu_mem = agg_df["cpu_mem"].iloc[0]
             current_gpu_total_mem = agg_df["gpu_total_mem"].iloc[0]
 
