@@ -12,7 +12,8 @@ def load_resnet50():
 @track_peak_memory(export_to_json=True, json_file_name_prefix="test")
 def main():
     resnet50 = load_resnet50()
-    random_input_gpu = torch.rand(1, 100,1024, 1024).cuda()
+    if torch.cuda.is_available():
+        random_input_gpu = torch.rand(1, 100,1024, 1024).cuda()
     random_input_cpu = torch.rand(1, 200,1024, 1024)
     time.sleep(1)
 
