@@ -43,13 +43,16 @@ def track_peak_memory(export_to_json=False, json_file_name_prefix=""):
             sampler = MemorySampler()
             sampler.start()
 
+            start_time = time.time()
             result = func(*args, **kwargs)
+            end_time = time.time()
 
             sampler.stop()
 
             # Gather metrics
             metrics = {
                 "function_name": func.__name__,
+                "function_runtime_sec": end_time - start_time,
                 "peak_cpu_memory_MB": sampler.peak_cpu_mem,
                 "peak_gpu_total_memory_MB": sampler.peak_gpu_total_mem,
             }
@@ -65,11 +68,9 @@ def track_peak_memory(export_to_json=False, json_file_name_prefix=""):
                     json_file_name = f"{func.__name__}_memory_metrics_{timestamp_str}.json" 
                 with open(json_file_name, "w") as json_file:
                     json.dump(metrics, json_file, indent=4)
-
-            print(f"Peak CPU Memory for {func.__name__}: {sampler.peak_cpu_mem:.2f} MB")
-            print(
-                f"Peak GPU Total Memory for {func.__name__}: {sampler.peak_gpu_total_mem:.2f} MB"
-            )
+            print("\033[94m" + f"Peak CPU Memory for {func.__name__}: {sampler.peak_cpu_mem:.2f} MB" + "\033[0m")  # Red
+            print("\033[94m" + f"Peak GPU Total Memory for {func.__name__}: {sampler.peak_gpu_total_mem:.2f} MB" + "\033[0m")  # Green
+            print("\033[94m" + f"Runtime for {func.__name__}: {end_time - start_time:.2f} sec" + "\033[0m")  # Blue
 
             return result
 

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='memtracker',
-    version='0.1.1',
+    version='0.1.2',
     description='A simple utility to track and log peak CPU and GPU memory usage of a function.',
     author='MIBlue119',  
     author_email='miblue119@gmail.com',  
